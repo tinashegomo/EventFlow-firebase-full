@@ -1,9 +1,15 @@
-const Card = ({ children, className = '', onClick }) => {
+const Card = ({ children, className = '', onClick, elevated = false }) => {
   const interactive = typeof onClick === 'function';
   return (
     <div
       onClick={onClick}
-      className={`rounded-2xl border border-app-border bg-app-bg-secondary shadow-sm p-6 ${interactive ? 'cursor-pointer hover:shadow-md hover:border-app-accent transition-all' : ''} ${className}`}
+      className={`
+        rounded-2xl border border-app-border bg-app-bg-secondary
+        shadow-sm p-6
+        ${interactive ? 'cursor-pointer' : ''}
+        ${elevated ? 'card-hover' : ''}
+        ${className}
+      `}
     >
       {children}
     </div>

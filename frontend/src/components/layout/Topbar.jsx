@@ -55,7 +55,7 @@ const Topbar = () => {
 
   return (
     <>
-      <header className="flex items-center justify-between h-16 px-4 md:px-6 border-b border-app-border bg-app-bg-secondary flex-shrink-0">
+      <header className="flex items-center justify-between h-16 px-4 md:px-6 border-b border-app-border bg-app-bg-secondary/80 backdrop-blur-md flex-shrink-0 shadow-sm">
         <h1 className="text-base md:text-lg font-display font-semibold text-app-text-primary truncate">
           {title}
         </h1>
@@ -63,29 +63,29 @@ const Topbar = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setPanelOpen(true)}
-            className="relative p-2 rounded-xl hover:bg-app-bg-tertiary text-app-text-secondary hover:text-app-text-primary transition"
+            className="relative p-2.5 rounded-xl hover:bg-app-surface text-app-text-secondary hover:text-app-text-primary transition-all duration-200 hover:shadow-sm"
             aria-label="Notifications"
           >
-            <Bell size={18} />
+            <Bell size={20} strokeWidth={1.5} />
             {unread > 0 && (
-              <span className="absolute top-1 right-1 min-w-[16px] h-4 px-1 rounded-full bg-app-danger text-white text-[10px] font-semibold flex items-center justify-center">
-                {unread > 9 ? '9+' : unread}
+              <span className="absolute top-1 right-1 min-w-[18px] h-4 px-1.5 rounded-full bg-app-danger text-white text-[10px] font-semibold flex items-center justify-center shadow-sm">
+                {unread > 99 ? '99+' : unread}
               </span>
             )}
           </button>
 
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-xl hover:bg-app-bg-tertiary text-app-text-secondary hover:text-app-text-primary transition"
+            className="p-2.5 rounded-xl hover:bg-app-surface text-app-text-secondary hover:text-app-text-primary transition-all duration-200 hover:shadow-sm"
             aria-label="Toggle theme"
           >
-            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+            {theme === 'light' ? <Moon size={20} strokeWidth={1.5} /> : <Sun size={20} strokeWidth={1.5} />}
           </button>
 
           <ProfileDropdown>
-            <div className="w-9 h-9 rounded-full bg-app-accent-light text-app-accent-dark flex items-center justify-center font-semibold text-sm hover:ring-2 hover:ring-app-accent/30 transition">
+            <button className="w-9 h-9 rounded-full bg-gradient-to-br from-app-accent-light to-purple-100 text-app-accent-dark flex items-center justify-center font-semibold text-sm hover:ring-2 hover:ring-app-accent/30 transition-all duration-200 hover:scale-105 shadow-sm">
               {initials}
-            </div>
+            </button>
           </ProfileDropdown>
         </div>
       </header>

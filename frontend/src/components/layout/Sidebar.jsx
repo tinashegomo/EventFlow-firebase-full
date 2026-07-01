@@ -57,45 +57,54 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`hidden md:flex md:flex-col h-screen bg-app-bg-secondary border-r border-app-border flex-shrink-0 transition-all duration-200 ${
-        collapsed ? 'w-[68px]' : 'w-60 lg:w-64'
+      className={`hidden md:flex md:flex-col h-screen bg-app-bg-secondary/95 backdrop-blur-md border-r border-app-border flex-shrink-0 transition-all duration-300 ${
+        collapsed ? 'w-[68px] lg:w-[68px]' : 'w-64 lg:w-72'
       }`}
     >
-      <div className={`p-4 border-b border-app-border flex items-center ${collapsed ? 'justify-center' : 'gap-3'}`}>
+      <div className={`p-4 border-b border-app-border flex items-center ${collapsed ? 'justify-center' : 'gap-3'} min-h-[64px]`}>
         {!collapsed && (
           <>
             {currentOrg?.logoBase64 ? (
-              <img
-                src={currentOrg.logoBase64}
-                alt="Logo"
-                className="w-9 h-9 rounded-xl object-cover"
-              />
+              <div className="w-9 h-9 rounded-xl bg-white p-1.5 shadow-sm">
+                <img
+                  src={currentOrg.logoBase64}
+                  alt="Logo"
+                  className="w-full h-full rounded-lg object-cover"
+                />
+              </div>
             ) : (
-              <div className="w-9 h-9 rounded-xl bg-app-accent-light text-app-accent-dark flex items-center justify-center font-display font-semibold text-sm">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-app-accent to-purple-600 text-white flex items-center justify-center font-display font-semibold text-sm shadow-sm">
                 {orgInitials}
               </div>
             )}
-            <p className="text-sm font-semibold text-app-text-primary truncate flex-1">
-              {currentOrg?.name || 'EventFlow'}
-            </p>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-app-text-primary truncate">
+                {currentOrg?.name || 'EventFlow'}
+              </p>
+              <p className="text-xs text-app-text-muted truncate">
+                {currentOrg?.plan || 'Free Tier'}
+              </p>
+            </div>
           </>
         )}
         {collapsed && (
           currentOrg?.logoBase64 ? (
-            <img
-              src={currentOrg.logoBase64}
-              alt="Logo"
-              className="w-8 h-8 rounded-lg object-cover"
-            />
+            <div className="w-8 h-8 rounded-lg bg-white p-1 shadow-sm">
+              <img
+                src={currentOrg.logoBase64}
+                alt="Logo"
+                className="w-full h-full rounded-md object-cover"
+              />
+            </div>
           ) : (
-            <div className="w-8 h-8 rounded-lg bg-app-accent-light text-app-accent-dark flex items-center justify-center font-display font-semibold text-xs">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-app-accent to-purple-600 text-white flex items-center justify-center font-display font-semibold text-xs shadow-sm">
               {orgInitials}
             </div>
           )
         )}
       </div>
 
-      <nav className="flex-1 overflow-y-auto p-2 space-y-1">
+      <nav className="flex-1 overflow-y-auto p-2 space-y-1 custom-scrollbar">
         {links.map((link) => {
           const Icon = link.icon;
           return (
@@ -103,12 +112,12 @@ const Sidebar = () => {
               key={link.path}
               to={link.path}
               className={({ isActive }) =>
-                `relative flex items-center gap-3 rounded-xl text-sm font-medium transition ${
-                  collapsed ? 'justify-center px-2 py-2.5' : 'px-3 py-2.5'
+                `relative flex items-center gap-3 rounded-xl text-sm font-medium transition-all duration-200 ${
+                  collapsed ? 'justify-center px-2 py-3' : 'px-3 py-3'
                 } ${
                   isActive
-                    ? 'bg-app-accent-light text-app-accent-dark'
-                    : 'text-app-text-secondary hover:bg-app-bg-tertiary hover:text-app-text-primary'
+                    ? 'bg-app-accent-light text-app-accent-dark shadow-sm'
+                    : 'text-app-text-secondary hover:bg-app-surface hover:text-app-text-primary'
                 }`
               }
               title={collapsed ? link.label : undefined}
@@ -118,11 +127,11 @@ const Sidebar = () => {
                   {isActive && (
                     <motion.div
                       layoutId="activeNav"
-                      className="absolute left-0 top-1 bottom-1 w-1 bg-app-accent rounded-r"
+                      className="absolute left-0 top-1/2 -translate-y-1/2 w-1 bg-app-accent rounded-r-full"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
-                  <Icon size={18} />
+                  <Icon size={20} strokeWidth={1.5} />
                   {!collapsed && <span>{link.label}</span>}
                 </>
               )}
@@ -131,15 +140,17 @@ const Sidebar = () => {
         })}
       </nav>
 
-      <div className={`p-2 border-t border-app-border flex items-center ${collapsed ? 'flex-col gap-1' : 'justify-between'}`}>
+      <div className={`p-3 border-t border-app-border bg-app-surface/50 ${collapsed ? 'flex flex-col gap-2 items-center' : 'flex justify-between items-center'}`}>
         {!collapsed && <InstallButton />}
-        <button
+        <motion.button
           onClick={toggleCollapse}
-          className="p-2 rounded-xl hover:bg-app-bg-tertiary text-app-text-muted hover:text-app-text-primary transition"
+          className="p-2.5 rounded-xl hover:bg-app-surface text-app-text-muted hover:text-app-text-primary transition-all duration-200 hover:shadow-sm"
           title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
-          {collapsed ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}
-        </button>
+          {collapsed ? <PanelLeftOpen size={20} strokeWidth={1.5} /> : <PanelLeftClose size={20} strokeWidth={1.5} />}
+        </motion.button>
         {collapsed && <InstallButton />}
       </div>
     </aside>

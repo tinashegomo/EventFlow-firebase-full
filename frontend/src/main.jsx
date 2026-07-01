@@ -9,7 +9,7 @@ registerSW({
   onNeedRefresh() {
     toast('A new version is available. Refresh to update.', {
       duration: Infinity,
-      style: { borderRadius: '12px', background: '#C17F24', color: '#fff', fontSize: '14px' },
+      style: { borderRadius: '12px', background: '#9333EA', color: '#fff', fontSize: '14px' },
     });
   },
   onOfflineReady() {

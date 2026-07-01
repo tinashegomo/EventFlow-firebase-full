@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 const PageTransition = ({ children, className = '' }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
-      transition={{ duration: 0.25, ease: 'easeOut' }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
       className={className}
     >
       {children}
@@ -20,9 +20,16 @@ export const StaggerList = ({ items, renderItem, className = '' }) => {
       {items.map((item, index) => (
         <motion.div
           key={item.id || index}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: Math.min(index * 0.05, 0.5), duration: 0.2 }}
+          initial={{ opacity: 0, y: 30, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ 
+            delay: Math.min(index * 0.08, 0.3), 
+            duration: 0.5, 
+            type: 'spring', 
+            stiffness: 300,
+            damping: 20
+          }}
+          className="will-change-transform"
         >
           {renderItem(item, index)}
         </motion.div>
